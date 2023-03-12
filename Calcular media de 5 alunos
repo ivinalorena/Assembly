@@ -1,0 +1,47 @@
+extern _scanf
+extern _printf
+section .data
+intFormat: db "%d",0x00
+scanfString: db "%d %d %d",0x00
+printString: db "Media geral: %d",0x0d,0x00
+section .bss
+aluno_1: resd 1
+aluno_2: resd 1
+aluno_3: resd 1
+aluno_4: resd 1
+aluno_5: resd 1
+%include "io.inc"
+section .text
+global CMAIN
+CMAIN:
+mov ebp, esp
+push aluno_1
+push intFormat
+call _scanf
+add esp,8;limpa a pilha
+push aluno_2
+push intFormat
+call _scanf
+add esp,8;limpa a pilha
+push aluno_3
+push intFormat
+call _scanf
+add esp,8;limpa a pilha
+mov bx,[aluno_1]
+mov cx,[aluno_2]
+add ax,cx
+mov dx,[aluno_3]
+add ax,dx
+mov ah,[aluno_4]
+mov al,[aluno_5]
+add ax,ax
+mov bl,5
+div bl
+movzx eax,dx
+push eax
+push printString
+call _printf
+add esp,8
+
+xor eax, eax
+ret
