@@ -2,8 +2,9 @@ extern _scanf
 extern _printf
 section .data
 intFormat: db "%d",0x00
-scanfString: db "%d %d %d",0x00
-printString: db "Media geral: %d",0x0d,0x00
+scanfString: db "%d %d %d %d %d",0x00
+printString: db "Media Geral: %d",0x0d,0x00
+msg: db "%d Aprovado",0
 section .bss
 aluno_1: resd 1
 aluno_2: resd 1
@@ -35,13 +36,27 @@ add ax,dx
 mov ah,[aluno_4]
 mov al,[aluno_5]
 add ax,ax
+;;;;;;;;;;;;;;;;;;;;;;;
+cmp bx,cx
 mov bl,5
 div bl
 movzx eax,dx
 push eax
 push printString
 call _printf
+add esp,8; esp ponteiro para o topo da pilha
+cmp eax,6
+JA aprovados; JA = jump if above
+push msg
+call _printf
+add esp,8; limpa a pilha
+jmp saida
+aprovados:
+;mov eax
+push msg
+call _printf
 add esp,8
-
+jmp saida
+saida:
 xor eax, eax
 ret
