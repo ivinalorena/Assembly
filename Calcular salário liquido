@@ -1,0 +1,53 @@
+extern _scanf
+;s = valor+comissao+(diaria*7)-(3*valor)
+section .data
+scanfString: db "%d %d %d",0x00
+printString: db "%d",0x0d,0x00
+intFormat: db "%d",0x00
+section .bss
+valor: resd 1
+comissao: resd 1
+diaria: resd 1
+%include "io.inc"
+section .text
+global CMAIN
+CMAIN:
+mov ebp,esp
+LAB 
+- 01
+push valor
+push intFormat
+call _scanf
+add esp,8 ;limpa a pilha
+push comissao
+push intFormat
+call _scanf
+add esp,8
+push diaria
+push intFormat
+call _scanf
+add esp,8
+mov dx,[valor]
+mov bx,[comissao]
+mov cx,[diaria]
+add ax,bx
+;multiplicando diária*7
+mov cx,[diaria]
+add cx,[diaria]
+add cx,[diaria]
+add cx,[diaria]
+add cx,[diaria]
+add cx,[diaria]
+add cx,[diaria]
+add ax,cx
+mov dx,[valor]
+add dx,[valor]
+add dx,[valor]
+sub ax,dx
+push eax
+push printString
+call _printf
+add esp,8
+
+xor eax, eax
+ret
